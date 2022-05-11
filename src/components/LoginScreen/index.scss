@@ -1,0 +1,72 @@
+.login-screen-container {
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 20%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    border: 8px solid #00b2ca;
+    background: white;
+    border-radius: 16px;
+   
+
+    h2 {
+        background: white;
+    }
+    .userType-buttons-container {
+        display: flex;
+        justify-content: center;
+        background: white;
+        gap: 50px;
+
+        .checking-button {
+            width: 100px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #f79256;
+            background: #fbd1a2;
+            border-radius: 16px;
+            cursor: pointer;
+
+            &:hover {
+                background: #feefdd;
+            }
+        }
+    }
+
+    .login-form {
+        background: white;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .input-label {
+            background: white;
+        }
+        input {
+            border: 2px solid #00b2ca;
+            background: white;
+            padding: 10px;
+            border-radius: 16px;
+        }
+        .start-button {
+            border: 3px solid #f79256;
+            background: #fbd1a2;
+            border-radius: 16px;
+            padding: 10px;
+            &:hover {
+                background: #feefdd;
+            }
+        }
+        .error-message {
+            background: white;
+            color: red;
+        }
+    }
+  
+}
