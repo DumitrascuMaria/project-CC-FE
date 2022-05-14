@@ -44,6 +44,7 @@
                 display: flex;
                 justify-content: space-between;
                 .answer {
+                    width: 150px;
                     border: 2px solid #00b2ca;
                     border-radius: 16px;
                     padding: 10px;
@@ -67,5 +68,16 @@
         &:hover {
             background: #feefdd;
         }
+    }
+}
+.back {
+    width: 150px;
+    height: 50px;
+    border-radius: 16px;
+    border: 3px solid #f79256;
+    background: #fbd1a2;
+    cursor: pointer;
+    &:hover {
+    background: #feefdd;
     }
 }

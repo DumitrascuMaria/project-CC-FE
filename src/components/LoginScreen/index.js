@@ -22,6 +22,14 @@ const LoginScreen = ({ getStudentName }) => {
     }
   };
 
+  const goToTeacherScreenHandler = () => {
+    if (teacherInputRef.current.value) {
+      history.push("/teacherForm");
+    } else {
+      setError(true);
+    }
+  };
+
   return (
     <div className="login-screen-container">
       <h2>Login as a: </h2>
@@ -59,7 +67,9 @@ const LoginScreen = ({ getStudentName }) => {
         <div className="login-form">
           <p className="input-label">Please write your email address: </p>
           <input placeholder="email" ref={teacherInputRef}></input>
-          <button className="start-button">Log In</button>
+          <button className="start-button" onClick={goToTeacherScreenHandler}>
+            Log In
+          </button>
         </div>
       )}
     </div>
