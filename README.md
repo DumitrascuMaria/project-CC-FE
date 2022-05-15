@@ -1,70 +1,123 @@
-# Getting Started with Create React App
+Aplicație Web pentru generarea de teste online
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Link demo: https://youtu.be/jSPJcc_EXDA
+Link-uri git: 
+•	 https://github.com/DumitrascuMaria/project-CC-FE
+•	https://github.com/DumitrascuMaria/project-CC-BE
+Heroku: https://boiling-temple-58077.herokuapp.com/
 
-In the project directory, you can run:
+1.	Introducere
+În cadrul acestui proiect am realizat o aplicație web pentru crearea de teste/examene, destinată instituțiilor de învățământ, putând fi folosită atât de profesori cât și de studenți/elevi. 
+Tehnologiile folosite sunt următoarele: 
+•	Pentru stilizarea aplicației: ReactJS
+•	Serviciul de cloud folosit: Google Cloud Platform
+•	Baza de date: MySQL
 
-### `npm start`
+2.	Descriere problemă
+Se dorește realizarea unei aplicații utile în sistemul de învățământ care să ofere o interfață nouă și prietenoasă pentru a da evaluări în mediul online.
+Aplicația este utilizată în următorul mod: profesorul se autentifică și este redirecționat către o pagină unde poate adăuga/șterge întrebările viitorului test, iar studenții se autentifică și răspund la întrebările primite, afișăndu-le la final nota. Totodată, se trimite un mail automat cu numele studentului și punctajul obținut la test.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3.	Descriere API
+Pentru generarea de mail-uri am folosit un API_KEY de SendGrid, care a fost obținută rapid prin generarea unui cont în platforma lor. În folderul de BE am creat un nou fisier js pentru tratarea funcției de trimitere de mail-uri, funcție care are ca parametri receiver-ul, sender-ul, subiectul mesajului și mesajul propriu-zis. Prin metoda post de mai jos am apelat funcția de trimitere a unui mail:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    router.post("/sendMail", async (req, res) => {
+      const { receiver, sender, subject, msg } = req.body;
+      if (!receiver || !sender || !subject || !msg) {
+        return res.status(400).send("Bad request. Missing parametres.");
+      }
 
-### `npm test`
+      try {
+        const sendMailResponse = await sendMail(receiver, sender, subject, msg);
+      } catch (err) {
+        console.log(err);
+        return res.send("Something went wrong");
+      }
+    });
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+În restul aplicației, am folosit următoarele rute: 
+          app.use("/questions", questionsRouter);
+          app.use("/student", studentsRouter);
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4.	Flux de date
+•	Exemple de request / response
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+ Pe partea de FE am făcut un request pentru a obține toate întrebările din baza de date 
+ 
+    useEffect(() => {
+      const fetchData = async () => {
+        const result = await axios.get(
+        `${process.env.REACT_APP_API_URL}/questions`
+      );
 
-### `npm run eject`
+      if (result.data.data) {
+        let questionsArray = result.data.data;
+        questionsArray.reverse();
+        setQuestions(result.data.data);
+      }
+    };
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Pe partea de BE am tratat request-ul și am returnat datele din baza de date, dacă totul era în regulă.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+     router.get("/", (req, res) => {
+      connection.query("SELECT * FROM questions", (err, results) => {
+        if (err) {
+          return res.send(err);
+        }
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    return res.json({
+      data: results,
+       });
+      });
+    });
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+•	Metode HTTP
 
-## Learn More
+	Metodele HTTP utilizate în cadrul acestei aplicații sunt: GET(pentru obținerea datelor din baza de date), POST(pentru adăugarea unei noi întrebări în baza de date) și DELETE(pentru ștergerea unei anumite întrebări).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5.	Capturi ecran aplicație
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Ecranul de login: 
+ 
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+![image](https://user-images.githubusercontent.com/72390543/168483023-018a751d-c828-4aba-b75d-834ee0bd6049.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Ecranul profesorului: 
+ 
+![image](https://user-images.githubusercontent.com/72390543/168483036-f26e59df-8bcc-4252-8b5e-1d92cfcf4809.png)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Ecranul Studentului/Elevului: 
+ 
+
+![image](https://user-images.githubusercontent.com/72390543/168483041-ac2dae5b-230f-45d0-9b60-7a7e2c1e658d.png)
+
+
+
+
+
+
+
+Ecranul notei finale: 
+ 
+![image](https://user-images.githubusercontent.com/72390543/168483047-72191c40-554a-46a6-bedf-4dc20a227033.png)
+
+
+6.	Referințe
+
+http://carment.ase.ro/cc/curs/index.html
+https://gurita-alexandru.gitbook.io/cloud-computing-2022-simpre/
+https://www.mysqltutorial.org/mysql-cheat-sheet.aspx
+https://www.tutorialspoint.com/expressjs/expressjs_quick_guide.htm
+
+
