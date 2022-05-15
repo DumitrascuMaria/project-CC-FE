@@ -53,6 +53,14 @@
                     &:hover {
                         background: #bee3db;
                     }
+                    &:active {
+                        background: #27c6a6;
+                    }
+                   
+
+                }
+                .clicked {
+                    background: #27c6a6;
                 }
             }
         }

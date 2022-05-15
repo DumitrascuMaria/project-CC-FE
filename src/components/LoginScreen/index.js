@@ -6,15 +6,12 @@ import "./index.scss";
 const LoginScreen = ({ getStudentName }) => {
   const [isStudent, setIsStudent] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
-  //const [studentName, setStudentName] = useState();
-  const [teacherEmail, setTeacherEmail] = useState();
   const [error, setError] = useState(false);
   const studentInputRef = useRef();
   const teacherInputRef = useRef();
   let history = useHistory();
   const startTestHandler = () => {
     if (studentInputRef.current.value) {
-      //setStudentName(studentInputRef.current.value);
       getStudentName(studentInputRef.current.value);
       history.push("/quiz");
     } else {

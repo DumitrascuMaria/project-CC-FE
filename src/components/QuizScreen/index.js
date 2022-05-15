@@ -24,9 +24,10 @@ const QuizScreen = ({ studentName }) => {
     fetchData();
   }, []);
 
-  const selectAnswerHandler = () => {
+  const selectAnswerHandler = (e) => {
     const newGrade = grade + 1;
     setGrade(newGrade);
+    e.target.classList.add("clicked");
   };
 
   const finishQuizHandler = async () => {
@@ -81,7 +82,7 @@ const QuizScreen = ({ studentName }) => {
                       <button className="answer" onClick={selectAnswerHandler}>
                         {question.questionRightAnswer}
                       </button>
-                      <button className="answer">
+                      <button className="answer" onClick={(e) => {e.target.classList.add('clicked')}}>
                         {question.questionWrongAnswer}
                       </button>
                     </div>

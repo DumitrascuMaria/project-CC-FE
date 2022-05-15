@@ -26,27 +26,7 @@ export const QuestionsForm = () => {
 
     fetchData();
   }, []);
-  console.log(questions);
-  //   const editQuestionHandler = async (index) => {
-  //     console.log("index", index);
-  //     try {
-  //       let response = await axios.put(
-  //         `${process.env.REACT_APP_API_URL}/${index}`,
-  //         {
-  //           questionText: questions[index].questionText,
-  //           questionRightAnswer: questions[index].questionRightAnswer,
-  //           questionWrongAnswer: questions[index].questionWrongAnswer,
-  //         }
-  //       );
 
-  //       if (response.status === 200) {
-  //         alert("Succes");
-  //       }
-  //     } catch (error) {
-  //       alert("Something went wrong");
-  //       console.log(error);
-  //     }
-  //   };
   const deleteQuestionHandler = async (index) => {
     console.log("index", index);
     try {
@@ -55,7 +35,7 @@ export const QuestionsForm = () => {
       );
 
       if (response.status === 200) {
-        // alert("Succes");
+        alert("Intrebarea a fost stearsa cu succes!");
         window.location.reload();
       }
     } catch (error) {
@@ -100,17 +80,12 @@ export const QuestionsForm = () => {
       {goHome && <Redirect to="/" />}
       <div className="questionsForm">
         <h1>Questions Form</h1>
-        {questions.map((question, index) => {
+        {questions.map((question) => {
           return (
-            <div key={index} className="questionRowForm">
+            <div key={question.questionID} className="questionRowForm">
               <div className="questionDetails">
                 <label>Question: </label>
-                <input
-                  value={question.questionText}
-                  onChange={(e) => {
-                    onChangeTextHandler(e);
-                  }}
-                />
+                <input value={question.questionText} />
                 <label>Correct Answer: </label>
                 <input value={question.questionRightAnswer} />
                 <label>Wrong Answer: </label>
@@ -118,16 +93,8 @@ export const QuestionsForm = () => {
               </div>
               <div className="actions">
                 <button
-                  className="edit-button"
-                  // onClick={() => {
-                  //   editQuestionHandler(index);
-                  // }}
-                >
-                  Edit
-                </button>
-                <button
                   className="delete-button"
-                  onClick={() => deleteQuestionHandler(index)}
+                  onClick={() => deleteQuestionHandler(question.questionID)}
                 >
                   Delete
                 </button>
@@ -172,7 +139,7 @@ export const QuestionsForm = () => {
               />
             </div>
             <div className="actions">
-              <button className="add-button" onClick={addQuestionHandler}>
+              <button className="add-question" onClick={addQuestionHandler}>
                 ADD
               </button>
             </div>
